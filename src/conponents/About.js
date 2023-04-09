@@ -1,7 +1,7 @@
 import { Typography } from "@mui/material";
 import { Box } from "@mui/material";
 
-function About() {
+export default function About() {
   return (
     <Box>
       <Typography fontSize={28} sx={{
@@ -20,5 +20,3 @@ function About() {
     </Box>
   );
 }
-
-export default About;

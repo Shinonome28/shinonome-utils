@@ -55,8 +55,12 @@ function MainAppBar() {
           <Typography
             variant="h6"
             component="a"
-            href="#"
-            sx={{ textDecoration: "none", color: "inherit", mr: 2 }}
+            sx={{
+              textDecoration: "none",
+              color: "inherit",
+              mr: 2,
+              cursor: "pointer",
+            }}
             onClick={() => navigate("/")}
           >
             Shinonome Site
@@ -69,11 +73,11 @@ function MainAppBar() {
                   fontSize={16}
                   fontWeight={500}
                   component="a"
-                  href="#"
                   onClick={(event) => handleNavMenuOpen(key, event)}
                   sx={{
                     textDecoration: "none",
                     color: "inherit",
+                    cursor: "pointer",
                   }}
                 >
                   {key.toUpperCase()}
@@ -101,7 +105,6 @@ function MainAppBar() {
                         <Typography
                           textAlign="center"
                           component="a"
-                          href="#"
                           onClick={() => navigate(menuConfig[key][subKey])}
                           sx={{
                             textDecoration: "none",

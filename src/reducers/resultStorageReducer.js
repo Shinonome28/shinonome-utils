@@ -6,7 +6,9 @@ const resultStorageReducer = createSlice({
   reducers: {
     updateResult(state, action) {
       const { resultName, getResult } = action.payload;
-      state[resultName] = getResult(resultName);
+      if (resultName in state) {
+        state[resultName] = getResult(resultName);
+      }
     },
     toggleReult(state, action) {
       const { resultName, getResult } = action.payload;
@@ -16,23 +18,45 @@ const resultStorageReducer = createSlice({
         state[resultName] = getResult(resultName);
       }
     },
-    clearResult(state, action)
-    {
-        const {resultName} = action.payload;
-        delete state[resultName];
+    addResult(state, action) {
+      const { resultName, getResult } = action.payload;
+      state[resultName] = getResult(resultName);
     },
-    clearAllResult(state, action)
-    {
-        return {}
+    clearResult(state, action) {
+      const { resultName } = action.payload;
+      delete state[resultName];
+    },
+    clearAllResult(state, action) {
+      return {};
     },
   },
 });
 
-export function isReusltInStorage(state, resultName)
-{
-    return resultName in state;
+export function isReusltInStorage(state, resultName) {
+  return resultName in state;
+}
+
+export function modifyByType(dispatch, action, type) {
+  switch (type) {
+    case "toggle":
+      dispatch(resultStorageReducer.actions.toggleReult(action))
+      return;
+    case "update":
+      dispatch(resultStorageReducer.actions.updateResult(action))
+      return
+    case "add":
+      dispatch(resultStorageReducer.actions.addResult(action))
+      return
+    default:
+      return
+  }
 }
 
 export default resultStorageReducer.reducer;
-export const {toggleReult, updateResult, clearAllResult, clearResult} = resultStorageReducer.actions;
-
+export const {
+  toggleReult,
+  updateResult,
+  clearAllResult,
+  clearResult,
+  addResult
+} = resultStorageReducer.actions;

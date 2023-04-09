@@ -3,6 +3,7 @@ import MainAppBar from "./conponents/MainAppBar";
 import { Routes, Route } from "react-router-dom";
 import About from "./conponents/About";
 import StringUtils from "./conponents/StringUtils";
+import Blog from "./conponents/Blog";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Routes>
           <Route path="/" element={<About />}></Route>
           <Route path="/string-utils" element={<StringUtils />}></Route>
+          <Route path="/blog" element={<Blog></Blog>}></Route>
         </Routes>
       </Container>
     </Box>

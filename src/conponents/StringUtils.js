@@ -3,7 +3,7 @@ import { QRCodeSVG } from "qrcode.react";
 import { useReducer, useState } from "react";
 import { Base64 } from "js-base64";
 import resultStorageReducer from "../reducers/resultStorageReducer";
-import * as resultStorageActions from "../reducers/resultStorageReducer";
+import * as resultStorageUtils from "../reducers/resultStorageReducer";
 
 function StringUtils() {
   const [stringInput, setStringInput] = useState("");
@@ -12,72 +12,79 @@ function StringUtils() {
     {}
   );
 
-  const generateBase64Decode = () => {
-    const resultName = "base64-decode";
-    resultStorageDispatch(
-      resultStorageActions.toggleReult({
-        resultName: resultName,
-        getResult: () => {
-          return (
-            <Box key="base64-encode">
-              <TextField
-                value={Base64.decode(stringInput)}
-                label="BASE64 ENCODE"
-                disabled
-              ></TextField>
-            </Box>
-          );
-        },
-      })
-    );
+  const generateBase64Decode = (type) => {
+    const payload = {
+      resultName: "base64-decode",
+      getResult: () => {
+        return (
+          <Box key="base64-decode" sx={{ width: "100%" }}>
+            <TextField
+              value={Base64.decode(stringInput)}
+              label="BASE64 DECODE"
+              disabled
+              fullWidth
+              multiline
+            ></TextField>
+          </Box>
+        );
+      },
+    };
+
+    resultStorageUtils.modifyByType(resultStorageDispatch, payload, type);
   };
 
-  const generateQtCode = () => {
-    const resultName = "qrcode";
-    resultStorageDispatch(
-      resultStorageActions.toggleReult({
-        resultName: resultName,
-        getResult: () => {
-          return (
-            <Box
-              key="qrcode"
-              sx={{
-                borderWidth: 1,
-                backgroundColor: "white",
-                padding: 1,
-                paddingBottom: 0,
-              }}
-            >
-              <QRCodeSVG value={stringInput} size={128 * 1.25}></QRCodeSVG>
-            </Box>
-          );
-        },
-      })
-    );
+  const generateQtCode = (type) => {
+    const payload = {
+      resultName: "qrcode",
+      getResult: () => {
+        return (
+          <Box
+            key="qrcode"
+            sx={{
+              borderWidth: 1,
+              backgroundColor: "white",
+              padding: 1,
+              paddingBottom: 0,
+            }}
+          >
+            <QRCodeSVG value={stringInput} size={128 * 1.25}></QRCodeSVG>
+          </Box>
+        );
+      },
+    };
+    resultStorageUtils.modifyByType(resultStorageDispatch, payload, type);
   };
 
-  const generateBase64Encode = () => {
-    const resultName = "base64-encode";
-    resultStorageDispatch(
-      resultStorageActions.toggleReult({
-        resultName: resultName,
-        getResult() {
-          return (
-            <Box key="base64-encode">
-              <TextField
-                value={Base64.encode(stringInput)}
-                label="BASE64 ENCODE"
-                disabled
-              ></TextField>
-            </Box>
-          );
-        },
-      })
-    );
+  const generateBase64Encode = (type) => {
+    const payload = {
+      resultName: "base64-encode",
+      getResult() {
+        return (
+          <Box key="base64-encode" sx={{ width: "100%" }}>
+            <TextField
+              value={Base64.encode(stringInput)}
+              label="BASE64 ENCODE"
+              disabled
+              fullWidth
+              multiline
+            ></TextField>
+          </Box>
+        );
+      },
+    };
+    resultStorageUtils.modifyByType(resultStorageDispatch, payload, type);
   };
 
-  const clearAllGenerationResult = () => {
-    resultStorageDispatch(resultStorageActions.clearAllResult())
+  const clear = () => {
+    resultStorageDispatch(resultStorageUtils.clearAllResult());
+    setStringInput("");
+  };
+
+  const onInputFieldChange = (event) => {
+    setStringInput(event.currentTarget.value);
+    generateBase64Decode("update");
+    generateBase64Encode("update");
+    generateQtCode("update");
   };
   return (
     <Box component="form" noValidate autoComplete="off">
@@ -85,7 +92,7 @@ function StringUtils() {
         rows={5}
         variant="standard"
         value={stringInput}
-        onChange={(e) => setStringInput(e.currentTarget.value)}
+        onChange={onInputFieldChange}
         fullWidth
         multiline
       ></TextField>
@@ -94,34 +101,42 @@ function StringUtils() {
           mt: 2,
         }}
       >
-        <Button onClick={generateQtCode} sx={{ textTransform: "none" }}>
-          QR Code
-        </Button>
-        <Button onClick={generateBase64Encode} sx={{ textTransform: "none" }}>
-          Base64 Encode
-        </Button>
-        <Button onClick={generateBase64Decode} sx={{ textTransform: "none" }}>
-          Base64 Decode
-        </Button>
         <Button
-          onClick={clearAllGenerationResult}
+          onClick={() => generateQtCode("toggle")}
           sx={{ textTransform: "none" }}
         >
+          QR Code
+        </Button>
+        <Button
+          onClick={() => generateBase64Encode("toggle")}
+          sx={{ textTransform: "none" }}
+        >
+          Base64 Encode
+        </Button>
+        <Button
+          onClick={() => generateBase64Decode("toggle")}
+          sx={{ textTransform: "none" }}
+        >
+          Base64 Decode
+        </Button>
+        <Button onClick={clear} sx={{ textTransform: "none" }}>
           Clear
         </Button>
       </ButtonGroup>
-      <Stack
-        direction="column"
-        justifyContent="flex-start"
-        alignItems="center"
-        spacing={4}
-        sx={{ mt: 3 }}
-      >
-        {Object.keys(resultStorage).map((item) => {
-          console.log("rendering ", item);
-          return resultStorage[item];
-        })}
-      </Stack>
+      <Box sx={{ width: "100%" }}>
+        <Stack
+          direction="column"
+          justifyContent="flex-start"
+          alignItems="center"
+          spacing={4}
+          sx={{ mt: 3 }}
+        >
+          {Object.keys(resultStorage).map((item) => {
+            console.log("rendering ", item);
+            return resultStorage[item];
+          })}
+        </Stack>
+      </Box>
     </Box>
   );
 }
