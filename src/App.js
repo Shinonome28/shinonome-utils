@@ -1,24 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import { Box, Container } from "@mui/material";
+import MainAppBar from "./conponents/MainAppBar";
+import { Routes, Route } from "react-router-dom";
+import About from "./conponents/About";
+import StringUtils from "./conponents/StringUtils";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Box>
+      <MainAppBar></MainAppBar>
+      <Container maxWidth="md" sx={{
+        mt: 2
+      }}>
+        <Routes>
+          <Route path="/" element={<About />}></Route>
+          <Route path="/string-utils" element={<StringUtils />}></Route>
+        </Routes>
+      </Container>
+    </Box>
   );
 }
 
