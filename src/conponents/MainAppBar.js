@@ -59,7 +59,7 @@ function MainAppBar() {
             sx={{ textDecoration: "none", color: "inherit", mr: 2 }}
             onClick={() => navigate("/")}
           >
-            Ciao Toolbox
+            Shinonome Site
           </Typography>
 
           <Box sx={{ flexGrow: 1 }}>
