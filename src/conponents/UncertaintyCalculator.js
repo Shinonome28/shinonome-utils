@@ -12,10 +12,9 @@ import {
   TableRow,
   TableBody,
 } from "@mui/material";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import BasicStatistic from "../libs/basic_statistic";
-import { AlertMessageModifiers } from "../reducers/alertMessageReducer";
-import { GlobalAlertMessageContext } from "../context/globalAlertMessageContext";
+import { useAddGlobalAlertMessage } from "../hooks/globalAlertMessageHook";
 
 export default function UncertaintyCalculator() {
   const [dataRows, setDataRows] = useState([9.77, 9.88]);
@@ -23,16 +22,12 @@ export default function UncertaintyCalculator() {
   const [uncertaintyBInput, setUncertaintyBInput] = useState(0.0);
   const [sigmaInput, setSigmaInput] = useState(1.0);
   const [precisionInput, setPrecisionInput] = useState(4);
-  const globalAlertMessageContext = useContext(GlobalAlertMessageContext);
+  const addGlobalAlertMessage = useAddGlobalAlertMessage();
 
   const toFloat = (number) => {
     const result = parseFloat(number);
     if (isNaN(result)) {
-      AlertMessageModifiers.addMessage(
-        globalAlertMessageContext.dispatch,
-        "error",
-        "You don't input a valid number!"
-      );
+      addGlobalAlertMessage("error", `You input a invalid number: ${number}!`);
       return NaN;
     }
     return result;
