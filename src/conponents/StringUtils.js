@@ -3,7 +3,7 @@ import { QRCodeSVG } from "qrcode.react";
 import { useReducer, useState } from "react";
 import { Base64 } from "js-base64";
 import resultStorageReducer from "../reducers/resultStorageReducer";
-import * as resultStorageUtils from "../reducers/resultStorageReducer";
+import * as ResultStorageModifier from "../reducers/resultStorageReducer";
 
 function StringUtils() {
   const [stringInput, setStringInput] = useState("");
@@ -30,7 +30,7 @@ function StringUtils() {
       },
     };
 
-    resultStorageUtils.modifyByType(resultStorageDispatch, payload, type);
+    ResultStorageModifier.modifyByType(resultStorageDispatch, payload, type);
   };
 
   const generateQtCode = (type) => {
@@ -52,7 +52,7 @@ function StringUtils() {
         );
       },
     };
-    resultStorageUtils.modifyByType(resultStorageDispatch, payload, type);
+    ResultStorageModifier.modifyByType(resultStorageDispatch, payload, type);
   };
 
   const generateBase64Encode = (type) => {
@@ -72,11 +72,11 @@ function StringUtils() {
         );
       },
     };
-    resultStorageUtils.modifyByType(resultStorageDispatch, payload, type);
+    ResultStorageModifier.modifyByType(resultStorageDispatch, payload, type);
   };
 
-  const clear = () => {
-    resultStorageDispatch(resultStorageUtils.clearAllResult());
+  const clearAll = () => {
+    ResultStorageModifier.modifyByType(resultStorageDispatch, null, "clearAll");
     setStringInput("");
   };
 
@@ -119,7 +119,7 @@ function StringUtils() {
         >
           Base64 Decode
         </Button>
-        <Button onClick={clear} sx={{ textTransform: "none" }}>
+        <Button onClick={clearAll} sx={{ textTransform: "none" }}>
           Clear
         </Button>
       </ButtonGroup>

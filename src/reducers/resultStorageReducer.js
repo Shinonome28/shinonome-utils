@@ -39,24 +39,26 @@ export function isReusltInStorage(state, resultName) {
 export function modifyByType(dispatch, action, type) {
   switch (type) {
     case "toggle":
-      dispatch(resultStorageReducer.actions.toggleReult(action))
+      dispatch(resultStorageReducer.actions.toggleReult(action));
       return;
     case "update":
-      dispatch(resultStorageReducer.actions.updateResult(action))
-      return
+      dispatch(resultStorageReducer.actions.updateResult(action));
+      return;
     case "add":
-      dispatch(resultStorageReducer.actions.addResult(action))
-      return
+      dispatch(resultStorageReducer.actions.addResult(action));
+      return;
+    case "clear":
+      dispatch(resultStorageReducer.actions.clearResult(action));
+      return;
+    case "clearAll":
+      dispatch(resultStorageReducer.actions.clearAllResult(action));
+      return;
     default:
-      return
+      return;
   }
 }
 
 export default resultStorageReducer.reducer;
-export const {
-  toggleReult,
-  updateResult,
-  clearAllResult,
-  clearResult,
-  addResult
-} = resultStorageReducer.actions;
+export const ResultStorageModifier = {
+  modifyByType,
+};

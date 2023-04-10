@@ -6,6 +6,7 @@ import {
   AppBar,
   Menu,
   MenuItem,
+  Stack,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import SettingsIcon from "@mui/icons-material/Settings";
@@ -23,6 +24,8 @@ function MainAppBar() {
   const menuConfig = {
     Generators: {
       "String Utils": "/string-utils",
+    },
+    Calculators: {
       "Uncertainty Calculator": "/uncertatinty-calculator",
     },
   };
@@ -67,7 +70,7 @@ function MainAppBar() {
             Shinonome Site
           </Typography>
 
-          <Box sx={{ flexGrow: 1 }}>
+          <Stack direction="row" spacing={2} sx={{ flexGrow: 1 }}>
             {Object.keys(menuConfig).map((key) => (
               <Box key={`navmenu-${key}`}>
                 <Typography
@@ -120,7 +123,7 @@ function MainAppBar() {
                 </Menu>
               </Box>
             ))}
-          </Box>
+          </Stack>
 
           <Box>
             <IconButton
