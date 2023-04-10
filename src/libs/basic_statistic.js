@@ -43,21 +43,25 @@ function population_standard_deviation(data, cache) {
   return Math.sqrt(SS(data) / data.length);
 }
 
-function uncertainty_A(data, cache) {
-  return Math.sqrt(SS(data) / (data.length * (data.length - 1)));
+function uncertainty_A(data, sigma, cache) {
+  if (!sigma) {
+    sigma = 1.0;
+  }
+  return sigma * Math.sqrt(SS(data) / (data.length * (data.length - 1)));
 }
 
-function uncertainty(data, uncertainty_B, sigma, cache) {
-  if (!uncertainty_B) {
-    uncertainty_B = 0;
+function uncertainty(data, uncertaintyB, sigma, cache) {
+  console.log(uncertaintyB, sigma);
+  if (!uncertaintyB) {
+    uncertaintyB = 0;
   }
   if (!sigma) {
     sigma = 1.0;
   }
-  let uncertainty_without_sigma = Math.sqrt(
-    _nth_power(uncertainty_B, 2) + _nth_power(uncertainty_A(data), 2)
+  return Math.sqrt(
+    _nth_power(uncertaintyB, 2) +
+      _nth_power(uncertainty_A(data, sigma, cache), 2)
   );
-  return sigma * uncertainty_without_sigma;
 }
 
 function relativeUncertainty(data, uncertainty, cache) {
@@ -74,11 +78,12 @@ function compute(data, config) {
     data,
     result
   );
-  result.uncertainty_A = uncertainty_A(data, result);
+
   if (config.computeUncertainty) {
+    result.uncertaintyA = uncertainty_A(data, config.sigma, result);
     result.uncertainty = uncertainty(
       data,
-      config.uncertainty_B,
+      config.uncertaintyB,
       config.sigma,
       result
     );

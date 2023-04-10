@@ -12,40 +12,131 @@ import {
   TableRow,
   TableBody,
 } from "@mui/material";
-import { useState } from "react";
 import BasicStatistic from "../libs/basic_statistic";
-import { useAddGlobalAlertMessage } from "../hooks/globalAlertMessageHook";
+import { useImmer } from "use-immer";
+import getAllAccessToOneValueObject from "../libs/allAccessToOneValueObject";
 
 export default function UncertaintyCalculator() {
-  const [dataRows, setDataRows] = useState([9.77, 9.88]);
-  const [dataInput, setDataInput] = useState("");
-  const [uncertaintyBInput, setUncertaintyBInput] = useState(0.0);
-  const [sigmaInput, setSigmaInput] = useState(1.0);
-  const [precisionInput, setPrecisionInput] = useState(4);
-  const addGlobalAlertMessage = useAddGlobalAlertMessage();
+  const initState = {
+    dataRows: [],
+    dataInput: 0.0,
+    uncertaintyBInput: 0.0,
+    sigmaInput: 1.0,
+    precisionInput: 4,
+  };
+  const [formState, setState] = useImmer(initState);
 
-  const toFloat = (number) => {
-    const result = parseFloat(number);
-    if (isNaN(result)) {
-      addGlobalAlertMessage("error", `You input a invalid number: ${number}!`);
-      return NaN;
-    }
-    return result;
+  const setDataInput = (str) => {
+    setState((draft) => {
+      draft.dataInput = str;
+    });
+  };
+
+  const setUncertaintyBInput = (str) => {
+    setState((draft) => {
+      draft.uncertaintyBInput = str;
+    });
+  };
+
+  const setPrecisionInput = (str) => {
+    setState((draft) => {
+      draft.precisionInput = str;
+    });
+  };
+
+  const setSigmaInput = (str) => {
+    setState((draft) => {
+      draft.sigmaInput = str;
+    });
   };
 
   const addNewData = () => {
-    const dataInputAsFloat = toFloat(dataInput);
-    setDataInput("");
-    if (isNaN(dataInputAsFloat)) return;
-    setDataRows(dataRows.concat(dataInputAsFloat));
+    if (isNaN(parseFloat(formState.dataInput))) return;
+    setState((draft) => {
+      draft.dataRows.push(draft.dataInput);
+    });
   };
 
-  let statisticResult = BasicStatistic.compute(dataRows, {
-    precision: toFloat(precisionInput),
-    computeUncertainty: true,
-    uncertainty_B: toFloat(uncertaintyBInput),
-    sigma: toFloat(sigmaInput),
-  });
+  const clear = () => {
+    setState((draft) => {
+      draft.dataRows = [];
+    });
+  };
+
+  // this is the state tranformed from the form state
+  // that all to float, to really represent the app's state
+  const state = {
+    dataRows: formState.dataRows.map((r) => parseFloat(r)),
+    precision: parseFloat(formState.precisionInput),
+    uncertaintyB: parseFloat(formState.uncertaintyBInput),
+    sigma: parseFloat(formState.sigmaInput),
+  };
+
+  const isInErrorState = (state) => {
+    return (
+      isNaN(state.uncertaintyB) ||
+      isNaN(state.sigma) ||
+      isNaN(state.precision) ||
+      state.dataRows.filter((r) => isNaN(r)).length !== 0
+    );
+  };
+
+  let statisticResult =
+    isInErrorState(state) || state.dataRows.length === 0
+      ? getAllAccessToOneValueObject("NaN")
+      : BasicStatistic.compute(state.dataRows, {
+          precision: state.precision,
+          computeUncertainty: true,
+          uncertaintyB: state.uncertaintyB,
+          sigma: state.sigma,
+        });
+
+  // const [dataRows, setDataRows] = useState([9.77, 9.88]);
+  // const [dataInput, setDataInput] = useState("");
+  // const [uncertaintyBInput, setUncertaintyBInput] = useState(0.0);
+  // const [sigmaInput, setSigmaInput] = useState(1.0);
+  // const [precisionInput, setPrecisionInput] = useState(4);
+  // const addGlobalAlertMessage = useAddGlobalAlertMessage();
+
+  // const toFloat = (number) => {
+  //   const result = parseFloat(number);
+  //   if (isNaN(result)) {
+  //     addGlobalAlertMessage("error", `You input a invalid number: ${number}!`);
+  //     return NaN;
+  //   }
+  //   return result;
+  // };
+
+  // const addNewData = () => {
+  //   const dataInputAsFloat = toFloat(dataInput);
+  //   setDataInput("");
+  //   if (isNaN(dataInputAsFloat)) return;
+  //   setDataRows(dataRows.concat(dataInputAsFloat));
+  // };
+
+  // make the input safe
+  // const makeComputeConfig = () => {
+  //   const config = {
+  //     precision: toFloat(precisionInput),
+  //     computeUncertainty: true,
+  //     uncertainty_B: toFloat(uncertaintyBInput),
+  //     sigma: toFloat(sigmaInput),
+  //   };
+  //   if (
+  //     isNaN(config.uncertainty_B) ||
+  //     isNaN(config.sigma) ||
+  //     isNaN(config.precision)
+  //   ) {
+  //     return null;
+  //   }
+  //   return config;
+  // };
+
+  // const computeConfig = makeComputeConfig();
+
+  // const clear = () => {
+  //   setDataRows([]);
+  // };
 
   return (
     <Box>
@@ -58,7 +149,7 @@ export default function UncertaintyCalculator() {
           <TextField
             variant="standard"
             sx={{ mr: 2 }}
-            value={dataInput}
+            value={formState.dataInput}
             onChange={(e) => setDataInput(e.currentTarget.value)}
           ></TextField>
           <Button variant="outlined" onClick={addNewData}>
@@ -67,7 +158,9 @@ export default function UncertaintyCalculator() {
         </Box>
 
         <Box>
-          <Button variant="outlined">Clear</Button>
+          <Button variant="outlined" onClick={clear}>
+            Clear
+          </Button>
         </Box>
       </Stack>
 
@@ -78,7 +171,7 @@ export default function UncertaintyCalculator() {
         <TextField
           id="uncertainty_B_input"
           variant="standard"
-          value={uncertaintyBInput}
+          value={formState.uncertaintyBInput}
           onChange={(e) => setUncertaintyBInput(e.currentTarget.value)}
         ></TextField>
         <label htmlFor="sigma-input">
@@ -87,7 +180,7 @@ export default function UncertaintyCalculator() {
         <TextField
           id="sigma-input"
           variant="standard"
-          value={sigmaInput}
+          value={formState.sigmaInput}
           onChange={(e) => setSigmaInput(e.currentTarget.value)}
         ></TextField>
         <label htmlFor="precision_input">
@@ -96,7 +189,7 @@ export default function UncertaintyCalculator() {
         <TextField
           id="precision_input"
           variant="standard"
-          value={precisionInput}
+          value={formState.precisionInput}
           onChange={(e) => setPrecisionInput(e.currentTarget.value)}
         ></TextField>
       </Stack>
@@ -110,7 +203,7 @@ export default function UncertaintyCalculator() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {dataRows.map((item, index) => (
+            {formState.dataRows.map((item, index) => (
               <TableRow key={`row-${index}`}>
                 <TableCell align="left">{index + 1}</TableCell>
                 <TableCell align="left">{item}</TableCell>
@@ -131,7 +224,7 @@ export default function UncertaintyCalculator() {
           </TableHead>
           <TableBody>
             <TableRow>
-              <TableCell>{statisticResult.uncertainty_A}</TableCell>
+              <TableCell>{statisticResult.uncertaintyA}</TableCell>
               <TableCell>{statisticResult.uncertainty}</TableCell>
               <TableCell>
                 {statisticResult.relativeUncertaintyInPercent}%
@@ -155,10 +248,10 @@ export default function UncertaintyCalculator() {
             <TableRow>
               <TableCell>{statisticResult.sum}</TableCell>
               <TableCell>{statisticResult.average}</TableCell>
-              <TableCell>{statisticResult.sample_standard_deviation}</TableCell>
               <TableCell>
                 {statisticResult.population_standard_deviation}
               </TableCell>
+              <TableCell>{statisticResult.sample_standard_deviation}</TableCell>{" "}
             </TableRow>
           </TableBody>
         </Table>
