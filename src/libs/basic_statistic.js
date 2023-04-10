@@ -92,8 +92,6 @@ function compute(data, config) {
   if (config.precision !== undefined) {
     result = _round_object(result, config.precision);
   }
-
-  console.log(result);
   return result;
 }
 
