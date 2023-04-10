@@ -23,6 +23,7 @@ function MainAppBar() {
   const menuConfig = {
     Generators: {
       "String Utils": "/string-utils",
+      "Uncertainty Calculator": "/uncertatinty-calculator",
     },
   };
 
