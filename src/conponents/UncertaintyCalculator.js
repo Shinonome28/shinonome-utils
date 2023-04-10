@@ -12,7 +12,7 @@ import {
   TableRow,
   TableBody,
 } from "@mui/material";
-import BasicStatistic from "../libs/basic_statistic";
+import BasicStatistic from "../libs/basicStatistic";
 import { useImmer } from "use-immer";
 import getAllAccessToOneValueObject from "../libs/allAccessToOneValueObject";
 
@@ -90,54 +90,6 @@ export default function UncertaintyCalculator() {
           uncertaintyB: state.uncertaintyB,
           sigma: state.sigma,
         });
-
-  // const [dataRows, setDataRows] = useState([9.77, 9.88]);
-  // const [dataInput, setDataInput] = useState("");
-  // const [uncertaintyBInput, setUncertaintyBInput] = useState(0.0);
-  // const [sigmaInput, setSigmaInput] = useState(1.0);
-  // const [precisionInput, setPrecisionInput] = useState(4);
-  // const addGlobalAlertMessage = useAddGlobalAlertMessage();
-
-  // const toFloat = (number) => {
-  //   const result = parseFloat(number);
-  //   if (isNaN(result)) {
-  //     addGlobalAlertMessage("error", `You input a invalid number: ${number}!`);
-  //     return NaN;
-  //   }
-  //   return result;
-  // };
-
-  // const addNewData = () => {
-  //   const dataInputAsFloat = toFloat(dataInput);
-  //   setDataInput("");
-  //   if (isNaN(dataInputAsFloat)) return;
-  //   setDataRows(dataRows.concat(dataInputAsFloat));
-  // };
-
-  // make the input safe
-  // const makeComputeConfig = () => {
-  //   const config = {
-  //     precision: toFloat(precisionInput),
-  //     computeUncertainty: true,
-  //     uncertainty_B: toFloat(uncertaintyBInput),
-  //     sigma: toFloat(sigmaInput),
-  //   };
-  //   if (
-  //     isNaN(config.uncertainty_B) ||
-  //     isNaN(config.sigma) ||
-  //     isNaN(config.precision)
-  //   ) {
-  //     return null;
-  //   }
-  //   return config;
-  // };
-
-  // const computeConfig = makeComputeConfig();
-
-  // const clear = () => {
-  //   setDataRows([]);
-  // };
-
   return (
     <Box>
       <Stack
