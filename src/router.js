@@ -1,8 +1,9 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import UILayoutTypeA from "./uiLayout/uiLayoutTypeA";
-import About from "./conponents/About";
-import StringUtils from "./conponents/StringUtils";
-import UncertaintyCalculator from "./conponents/UncertaintyCalculator";
+import About from "./components/About";
+import StringUtils from "./components/StringUtils";
+import UncertaintyCalculator from "./components/UncertaintyCalculator";
+import ErrorNotice from "./components/ErrorNotice";
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,17 @@ const router = createBrowserRouter([
       <UILayoutTypeA>
         <UncertaintyCalculator />
       </UILayoutTypeA>
+    ),
+  },
+  {
+    // 404 page not found
+    path: "*",
+    Component: () => (
+      <ErrorNotice
+        text={
+          "The URL you are looking for does not exist. Please check your URL."
+        }
+      ></ErrorNotice>
     ),
   },
 ]);

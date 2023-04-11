@@ -1,9 +1,8 @@
 import { Box, Container, CssBaseline } from "@mui/material";
-import AppBarTypeA from "../conponents/AppBarTypeA";
-import ControlledAlert from "../conponents/ControlledAlert";
+import AppBarTypeA from "../components/AppBarTypeA";
+import ControlledAlert from "../components/ControlledAlert";
 import GlobalAlertMessageContextProvider from "../context/globalAlertMessageContext";
-import ToggleColorMode from "../conponents/ToggleColorMode";
-// import { Link, Navigate } from "react-router-dom";
+import ToggleColorMode from "../components/ToggleColorMode";
 
 function UILayoutTypeA(props) {
   return (

@@ -15,6 +15,8 @@ import {
 import BasicStatistic from "../libs/basicStatistic";
 import { useImmer } from "use-immer";
 import getAllAccessToOneValueObject from "../libs/allAccessToOneValueObject";
+import ErrorNotice from "./ErrorNotice";
+import useAtleastScreenSize from "../hooks/useAtleastScreenSize";
 
 export default function UncertaintyCalculator() {
   const initState = {
@@ -25,6 +27,19 @@ export default function UncertaintyCalculator() {
     precisionInput: 4,
   };
   const [formState, setState] = useImmer(initState);
+  if (
+    !useAtleastScreenSize({
+      breakpoint: "md",
+    })
+  ) {
+    return (
+      <ErrorNotice
+        text={
+          "This app is not suitable running on this screensize. Please use devices with larger display such as PC or tablet, or you can enable desktop site mode in your browser settings."
+        }
+      ></ErrorNotice>
+    );
+  }
 
   const setDataInput = (str) => {
     setState((draft) => {
