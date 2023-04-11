@@ -2,7 +2,7 @@
   "name": "shinonome-website",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://shinonome28.github.io",
+  "homepage": "https://www.shinonome.me",
   "dependencies": {
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
