@@ -17,7 +17,7 @@ import { ColorModeContext } from "./ToggleColorMode";
 import { useNavigate } from "react-router-dom";
 import { useImmer } from "use-immer";
 
-function MainAppBar() {
+function AppBarTypeA() {
   const colorMode = useContext(ColorModeContext);
   const navigate = useNavigate();
   const [archorsEls, setArchorEls] = useImmer({});
@@ -26,7 +26,7 @@ function MainAppBar() {
       "String Utils": "/string-utils",
     },
     Calculators: {
-      "Uncertainty Calculator": "/uncertatinty-calculator",
+      "Uncertainty Calculator": "/uncertainty-calculator",
     },
   };
 
@@ -148,4 +148,4 @@ function MainAppBar() {
   );
 }
 
-export default MainAppBar;
+export default AppBarTypeA;
