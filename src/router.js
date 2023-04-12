@@ -1,36 +1,39 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { RouterProvider, createBrowserRouter, Outlet } from "react-router-dom";
 import UILayoutTypeA from "./uiLayout/uiLayoutTypeA";
 import About from "./components/About";
 import StringUtils from "./components/StringUtils";
 import UncertaintyCalculator from "./components/UncertaintyCalculator";
 import ErrorNotice from "./components/ErrorNotice";
+import HelpCenter from "./components/HelpCenter";
 
 const router = createBrowserRouter([
   {
     path: "/",
     Component: () => (
       <UILayoutTypeA>
-        <About />
+        <Outlet />
       </UILayoutTypeA>
     ),
-    children: [],
+    children: [
+      {
+        path: "",
+        element: <About />,
+      },
+      {
+        path: "string-utils",
+        element: <StringUtils />,
+      },
+      {
+        path: "uncertainty-calculator",
+        element: <UncertaintyCalculator />,
+      },
+      {
+        path: "help/:helpdoc",
+        element: <HelpCenter />,
+      },
+    ],
   },
-  {
-    path: "/string-utils",
-    Component: () => (
-      <UILayoutTypeA>
-        <StringUtils />
-      </UILayoutTypeA>
-    ),
-  },
-  {
-    path: "/uncertainty-calculator",
-    Component: () => (
-      <UILayoutTypeA>
-        <UncertaintyCalculator />
-      </UILayoutTypeA>
-    ),
-  },
+
   {
     // 404 page not found
     path: "*",

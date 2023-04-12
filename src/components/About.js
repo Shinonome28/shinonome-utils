@@ -39,10 +39,6 @@ export default function About() {
       ></Divider>
       <Box>
         <List>
-          {/* <ListItem disablePadding>
-            <ListItemText>Contace Me:</ListItemText>
-          </ListItem> */}
-
           <ListItem disablePadding>
             <ListItemButton
               onClick={() => window.open("https://github.com/Shinonome28")}
