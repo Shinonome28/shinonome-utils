@@ -10,6 +10,8 @@ import {
   Drawer,
   ListItem,
   List,
+  ListItemText,
+  ListItemIcon,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import SettingsIcon from "@mui/icons-material/Settings";
@@ -19,6 +21,10 @@ import { useContext, useState } from "react";
 import { ColorModeContext } from "./ToggleColorMode";
 import { Link, useNavigate } from "react-router-dom";
 import { useImmer } from "use-immer";
+import useGetTr from "../hooks/useGetTr";
+import { CurrentLanguageContext } from "../context/userLanguageSettingContext";
+import { Check } from "@mui/icons-material";
+import SiteConfiguration from "../siteConfiguration";
 
 function AppBarTypeA() {
   const colorMode = useContext(ColorModeContext);
@@ -32,14 +38,6 @@ function AppBarTypeA() {
     }
     setSidebarOpenState(sidebarOpenState === true ? false : true);
   };
-  const menuConfig = {
-    Generators: {
-      "String Utils": "/string-utils",
-    },
-    Calculators: {
-      "Uncertainty Calculator": "/uncertainty-calculator",
-    },
-  };
 
   const handleNavMenuClose = (key, event) => {
     setArchorEls((draft) => {
@@ -52,6 +50,21 @@ function AppBarTypeA() {
       draft[key] = event.currentTarget;
     });
   };
+  const tr = useGetTr(["menu-config", "display-languages"]);
+
+  const changeCurrentLanguage = useContext(
+    CurrentLanguageContext
+  ).changeCurrentLanguage;
+  const currentLanguage = useContext(CurrentLanguageContext).currentLanguage;
+
+  const generatorsSubMenuConfig = {};
+  generatorsSubMenuConfig[tr("nav-sublist-string-utils")] = "/string-utils";
+  const calculatorsSubMenuConfig = {};
+  calculatorsSubMenuConfig[tr("nav-sublist-uncertainty-calculators")] =
+    "/uncertainty-calculator";
+  const menuConfig = {};
+  menuConfig[tr("nav-list-generators")] = generatorsSubMenuConfig;
+  menuConfig[tr("nav-list-calculator")] = calculatorsSubMenuConfig;
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -104,7 +117,7 @@ function AppBarTypeA() {
                         <Box>
                           <List>
                             {Object.keys(menuConfig[key]).map((subKey) => (
-                              <ListItem>
+                              <ListItem key={subKey}>
                                 <Link
                                   to={menuConfig[key][subKey]}
                                   style={{
@@ -225,9 +238,61 @@ function AppBarTypeA() {
                 <Brightness7Icon />
               )}
             </IconButton>
-            <IconButton color="inherit" size="medium" aria-label="settings">
-              <SettingsIcon></SettingsIcon>
-            </IconButton>
+            <Box
+              sx={{
+                display: "inline-block",
+              }}
+            >
+              <IconButton
+                color="inherit"
+                size="medium"
+                aria-label="settings"
+                onClick={(event) => handleNavMenuOpen("settings-menu", event)}
+              >
+                <SettingsIcon></SettingsIcon>
+              </IconButton>
+
+              <Menu
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
+                }}
+                open={Boolean(archorsEls["settings-menu"])}
+                onClose={(event) => handleNavMenuClose("settings-menu", event)}
+                anchorEl={archorsEls["settings-menu"]}
+              >
+                {SiteConfiguration.supportLanguages.map((lang) => (
+                  <MenuItem
+                    key={lang}
+                    onClick={() => changeCurrentLanguage(lang)}
+                    selected={lang === currentLanguage}
+                  >
+                    {lang === currentLanguage ? (
+                      <>
+                        <ListItemIcon>
+                          <Check />
+                        </ListItemIcon>
+                        {tr(lang)}
+                      </>
+                    ) : (
+                      <ListItemText
+                        sx={{
+                          textAlign: "right",
+                        }}
+                      >
+                        {tr(lang)}
+                      </ListItemText>
+                    )}
+                  </MenuItem>
+                ))}
+                {/* <Divider /> */}
+              </Menu>
+            </Box>
           </Box>
         </Toolbar>
       </AppBar>

@@ -4,6 +4,7 @@ import { useReducer, useState } from "react";
 import { Base64 } from "js-base64";
 import resultStorageReducer from "../reducers/resultStorageReducer";
 import * as ResultStorageModifier from "../reducers/resultStorageReducer";
+import useGetTr from "../hooks/useGetTr";
 
 function StringUtils() {
   const [stringInput, setStringInput] = useState("");
@@ -11,6 +12,8 @@ function StringUtils() {
     resultStorageReducer,
     {}
   );
+
+  const tr = useGetTr("string-utils");
 
   const generateBase64Decode = (type) => {
     const payload = {
@@ -33,7 +36,7 @@ function StringUtils() {
     ResultStorageModifier.modifyByType(resultStorageDispatch, payload, type);
   };
 
-  const generateQtCode = (type) => {
+  const generateQRCode = (type) => {
     const payload = {
       resultName: "qrcode",
       getResult: () => {
@@ -84,7 +87,7 @@ function StringUtils() {
     setStringInput(event.currentTarget.value);
     generateBase64Decode("update");
     generateBase64Encode("update");
-    generateQtCode("update");
+    generateQRCode("update");
   };
   return (
     <Box component="form" noValidate autoComplete="off">
@@ -102,25 +105,25 @@ function StringUtils() {
         }}
       >
         <Button
-          onClick={() => generateQtCode("toggle")}
+          onClick={() => generateQRCode("toggle")}
           sx={{ textTransform: "none" }}
         >
-          QR Code
+          {tr("qrcode-gen")}
         </Button>
         <Button
           onClick={() => generateBase64Encode("toggle")}
           sx={{ textTransform: "none" }}
         >
-          Base64 Encode
+          {tr("base64-encode")}
         </Button>
         <Button
           onClick={() => generateBase64Decode("toggle")}
           sx={{ textTransform: "none" }}
         >
-          Base64 Decode
+          {tr("base64-decode")}
         </Button>
         <Button onClick={clearAll} sx={{ textTransform: "none" }}>
-          Clear
+          {tr("clear")}
         </Button>
       </ButtonGroup>
       <Box sx={{ width: "100%" }}>

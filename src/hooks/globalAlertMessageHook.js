@@ -5,7 +5,7 @@ import { AlertMessageModifiers } from "../reducers/alertMessageReducer";
 export function useAddGlobalAlertMessage() {
   const dispatch = useContext(GlobalAlertMessageContext).dispatch;
   return (type, message, seconds) => {
-    return AlertMessageModifiers.addMessage(dispatch, type, message, seconds);
+    AlertMessageModifiers.addMessage(dispatch, type, message, seconds);
   };
 }
 

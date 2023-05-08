@@ -3,7 +3,7 @@ import alertMessageReducer from "../reducers/alertMessageReducer";
 
 export const GlobalAlertMessageContext = createContext();
 
-function GlobalAlertMessageContextProvider(props) {
+export default function GlobalAlertMessageContextProvider(props) {
   const [globalAlertMessages, globalAlertMessagesDispatch] = useReducer(
     alertMessageReducer,
     []
@@ -13,12 +13,9 @@ function GlobalAlertMessageContextProvider(props) {
       value={{
         getState: () => globalAlertMessages,
         dispatch: globalAlertMessagesDispatch,
-        test: "a test",
       }}
     >
       {props.children}
     </GlobalAlertMessageContext.Provider>
   );
 }
-
-export default GlobalAlertMessageContextProvider;

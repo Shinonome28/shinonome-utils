@@ -1,0 +1,69 @@
+- prefix: menu-config
+  translations:
+    - key: nav-list-generators
+      zh: 生成器
+      en: Generators
+    - key: nav-list-calculator
+      zh: 计算器
+      en: Calculator
+    - key: nav-sublist-string-utils
+      zh: 字符串实用工具
+      en: String Utilities
+    - key: nav-sublist-uncertainty-calculators
+      zh: 不确定度计算器
+      en: Uncertainty Calculator
+- prefix: about-site
+  translations:
+    - key: title
+      zh: 关于此网站
+      en: About This Site
+    - key: about
+      en: "Welcome to Shinonome Website, this is a collection of utils and other
+        demos that I develop to pratice my skills. No correctnees, in-time bug
+        fix or other guarantees. However, you are still welcomed to give me some
+        suggestions and I will reply it. You can find out my contacts below.You
+        can use the menus and the sub-menus in the app bar to find the tools you
+        need in the website."
+      zh: "欢迎来到Shinonome的网站，这是一个有用的小工具和其他demo的集合。
+        我开发这个网站是为了锻炼我的开发技能。
+        没有正确性，及时bug修复或其他保证。然而，欢迎给我建议，我会回复的。你可以在下方找到我的联系方式。
+        你可以使用顶栏的菜单和子菜单来寻找你需要的工具。"
+    - key: contact-github
+      en: Contact Me on Github
+      zh: 在Github上联系我
+    - key: contact-email
+      en: Contact Me With Email
+      zh: 使用电子邮箱联系我
+- prefix: update-logs
+  translations:
+    - key: update-notice
+      en: "Update Notes:"
+      zh: "更新："
+    - key: update-log-1
+      en: "the first version"
+      zh: 第一个版本
+    - key: update-log-2
+      en: "Add multilingual support"
+      zh: "添加了多语言支持"
+- prefix: display-languages
+  translations:
+    - key: zh
+      en: Chinese
+      zh: "中文"
+    - key: en
+      en: "English"
+      zh: "英语"
+- prefix: string-utils
+  translations:
+    - key: qrcode-gen
+      en: QRCode
+      zh: 二维码
+    - key: base64-encode
+      en: Base64 Encode
+      zh: Base64编码
+    - key: base64-decode
+      en: Base64 Decode
+      zh: Base64解码
+    - key: clear
+      en: Clear
+      zh: 清除

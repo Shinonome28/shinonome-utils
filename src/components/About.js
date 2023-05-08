@@ -10,8 +10,15 @@ import {
 } from "@mui/material";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import EmailIcon from "@mui/icons-material/Email";
+import useGetTr from "../hooks/useGetTr";
 
 export default function About() {
+  const tr = useGetTr(["about-site", "update-logs"]);
+  const updateLogs = [
+    ["4/11/2023", tr("update-log-1")],
+    ["5/8/2023", tr("update-log-2")],
+  ];
+
   return (
     <Box>
       <Typography
@@ -21,16 +28,9 @@ export default function About() {
           mb: 2,
         }}
       >
-        About This Site
+        {tr("title")}
       </Typography>
-      <Typography fontSize={18}>
-        Welcome to Shinonome Website, this is a collection of utils and other
-        demos that I develop to pratice my skills. No correctnees, in-time bug
-        fix or other guarantees. However, you are still welcomed to give me some
-        suggestions and I will reply it. You can find out my contacts below.You
-        can use the menus and the sub-menus in the app bar to find the tools you
-        need in the website.
-      </Typography>
+      <Typography fontSize={18}>{tr("about")}</Typography>
       <Divider
         sx={{
           mt: 2,
@@ -46,7 +46,7 @@ export default function About() {
               <ListItemIcon>
                 <GitHubIcon />
               </ListItemIcon>
-              <ListItemText>Contact Me On Github</ListItemText>
+              <ListItemText>{tr("contact-github")}</ListItemText>
             </ListItemButton>
           </ListItem>
 
@@ -57,7 +57,7 @@ export default function About() {
               <ListItemIcon>
                 <EmailIcon />
               </ListItemIcon>
-              <ListItemText>Contact Me With Email</ListItemText>
+              <ListItemText>{tr("contact-email")}</ListItemText>
             </ListItemButton>
           </ListItem>
         </List>
@@ -71,11 +71,17 @@ export default function About() {
       <Box>
         <List>
           <ListItem disablePadding>
-            <ListItemText>Update notes:</ListItemText>
+            <ListItemText>
+              <Typography variant="h6">{tr("update-notice")}</Typography>
+            </ListItemText>
           </ListItem>
-          <ListItem disablePadding>
-            <ListItemText>4/11/2023 the first version</ListItemText>
-          </ListItem>
+          {updateLogs.map((item) => (
+            <ListItem disablePadding key={item[0]}>
+              <ListItemText>
+                {item[0]} {item[1]}
+              </ListItemText>
+            </ListItem>
+          ))}
         </List>
       </Box>
     </Box>
