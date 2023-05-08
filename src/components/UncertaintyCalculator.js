@@ -17,8 +17,11 @@ import { useImmer } from "use-immer";
 import getAllAccessToOneValueObject from "../libs/allAccessToOneValueObject";
 import ErrorNotice from "./ErrorNotice";
 import useAtleastScreenSize from "../hooks/useAtleastScreenSize";
+import useGetTr from "../hooks/useGetTr";
 
 export default function UncertaintyCalculator() {
+  const tr = useGetTr(["uncertainty-calculator"]);
+
   const initState = {
     dataRows: [],
     dataInput: 0.0,
@@ -78,8 +81,6 @@ export default function UncertaintyCalculator() {
     });
   };
 
-  // this is the state tranformed from the form state
-  // that all to float, to really represent the app's state
   const state = {
     dataRows: formState.dataRows.map((r) => parseFloat(r)),
     precision: parseFloat(formState.precisionInput),
@@ -119,21 +120,31 @@ export default function UncertaintyCalculator() {
             value={formState.dataInput}
             onChange={(e) => setDataInput(e.currentTarget.value)}
           ></TextField>
-          <Button variant="outlined" onClick={addNewData}>
-            Add
+          <Button
+            variant="outlined"
+            onClick={addNewData}
+            sx={{ textTransform: "none" }}
+          >
+            {tr("add")}
           </Button>
         </Box>
 
         <Box>
-          <Button variant="outlined" onClick={clear}>
-            Clear
+          <Button
+            variant="outlined"
+            onClick={clear}
+            sx={{
+              textTransform: "none",
+            }}
+          >
+            {tr("clear")}
           </Button>
         </Box>
       </Stack>
 
       <Stack direction="row" spacing={2} alignItems="center" sx={{ mt: 1 }}>
         <label htmlFor="uncertainty_B_input">
-          <Typography>Uncertainty B:</Typography>
+          <Typography>{tr("uncertainty-b")}:</Typography>
         </label>
         <TextField
           id="uncertainty_B_input"
@@ -151,7 +162,7 @@ export default function UncertaintyCalculator() {
           onChange={(e) => setSigmaInput(e.currentTarget.value)}
         ></TextField>
         <label htmlFor="precision_input">
-          <Typography>Precision: </Typography>
+          <Typography>{tr("precision")}: </Typography>
         </label>
         <TextField
           id="precision_input"
@@ -184,9 +195,9 @@ export default function UncertaintyCalculator() {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Uncertainty A</TableCell>
-              <TableCell>Uncertainty</TableCell>
-              <TableCell>Relative Uncertainty</TableCell>
+              <TableCell>{tr("uncertainty-a")}</TableCell>
+              <TableCell>{tr("uncertainty")}</TableCell>
+              <TableCell>{tr("relative-uncertainty")}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -205,10 +216,10 @@ export default function UncertaintyCalculator() {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Sum</TableCell>
-              <TableCell>Average</TableCell>
-              <TableCell>Population Standard Derivation</TableCell>
-              <TableCell>Sample Standard Derviation</TableCell>
+              <TableCell>{tr("sum")}</TableCell>
+              <TableCell>{tr("average")}</TableCell>
+              <TableCell>{tr("population-stddev")}</TableCell>
+              <TableCell>{tr("sample-stddev")}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

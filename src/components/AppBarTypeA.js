@@ -12,6 +12,7 @@ import {
   List,
   ListItemText,
   ListItemIcon,
+  Button,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import SettingsIcon from "@mui/icons-material/Settings";
@@ -81,7 +82,6 @@ function AppBarTypeA() {
             <IconButton
               size="large"
               edge="start"
-              color="inherit"
               onClick={() => toggleSidebar(true)}
               sx={{
                 mr: 2,
@@ -145,19 +145,20 @@ function AppBarTypeA() {
               flexGrow: 1,
             }}
           >
-            <Typography
-              variant="h6"
-              component="a"
-              sx={{
-                textDecoration: "none",
-                color: "inherit",
-                mr: 2,
-                cursor: "pointer",
-              }}
-              onClick={() => navigate("/")}
-            >
-              Shinonome Site
-            </Typography>
+            <Button onClick={() => navigate("/")}>
+              <Typography
+                variant="h6"
+                component="a"
+                sx={{
+                  color: "#fff",
+                  mr: 2,
+                  textTransform: "none",
+                }}
+              >
+                Shinonome Site
+              </Typography>
+            </Button>
+
             <Stack
               direction="row"
               spacing={2}
@@ -172,19 +173,18 @@ function AppBarTypeA() {
             >
               {Object.keys(menuConfig).map((key) => (
                 <Box key={`navmenu-${key}`}>
-                  <Typography
-                    fontSize={16}
-                    fontWeight={500}
-                    component="a"
+                  <Button
                     onClick={(event) => handleNavMenuOpen(key, event)}
                     sx={{
-                      textDecoration: "none",
-                      color: "inherit",
-                      cursor: "pointer",
+                      color: "#fff",
+                      textTransform: "none",
                     }}
                   >
-                    {key}
-                  </Typography>
+                    <Typography fontSize={16} fontWeight={500}>
+                      {key}
+                    </Typography>
+                  </Button>
+
                   <Menu
                     anchorOrigin={{
                       vertical: "bottom",

@@ -67,3 +67,38 @@
     - key: clear
       en: Clear
       zh: 清除
+- prefix: uncertainty-calculator
+  translations:
+    - key: uncertainty-b
+      en: Uncertainty B
+      zh: B类不确定度
+    - key: precision
+      en: Precision
+      zh: 精度
+    - key: uncertainty-a
+      en: Uncertainty A
+      zh: A类不确定度
+    - key: uncertainty
+      en: Uncertainty
+      zh: 不确定度
+    - key: relative-uncertainty
+      en: Relative Uncertainty
+      zh: 相对不确定度
+    - key: sum
+      en: Sum
+      zh: 总和
+    - key: average
+      zh: 平均值
+      en: Average
+    - key: population-stddev
+      en: Population Standard Derivation
+      zh: 总体标准差
+    - key: sample-stddev
+      en: Sample Standard Derivation
+      zh: 样本标准差
+    - key: add
+      en: Add
+      zh: 添加
+    - key: clear
+      en: Clear
+      zh: 清除
