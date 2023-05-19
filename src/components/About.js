@@ -15,8 +15,8 @@ import useGetTr from "../hooks/useGetTr";
 export default function About() {
   const tr = useGetTr(["about-site", "update-logs"]);
   const updateLogs = [
-    ["4/11/2023", tr("update-log-1")],
     ["5/8/2023", tr("update-log-2")],
+    ["4/11/2023", tr("update-log-1")],
   ];
 
   return (
