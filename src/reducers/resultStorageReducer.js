@@ -28,7 +28,7 @@ const resultStorageReducer = createSlice({
     },
     clearAllResult(state, action) {
       return {};
-    },
+    }
   },
 });
 

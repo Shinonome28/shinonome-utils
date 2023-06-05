@@ -1,10 +1,19 @@
-import { Box, Button, ButtonGroup, Stack, TextField } from "@mui/material";
-import { QRCodeSVG } from "qrcode.react";
+import { Box, Stack, TextField, Tab, Tabs } from "@mui/material";
+import { CaeserCodePart } from "./StringUtilParts/caeserCodePart";
 import { useReducer, useState } from "react";
-import { Base64 } from "js-base64";
 import resultStorageReducer from "../reducers/resultStorageReducer";
 import * as ResultStorageModifier from "../reducers/resultStorageReducer";
 import useGetTr from "../hooks/useGetTr";
+import { QrcodePart } from "./StringUtilParts/qrcodePart";
+import { Base64Part } from "./StringUtilParts/base64Part";
+
+function TabPanel(props) {
+  return (
+    <div hidden={props.value !== props.index} id={`tabpanel-${props.index}`}>
+      {props.value === props.index && props.children}
+    </div>
+  );
+}
 
 function StringUtils() {
   const [stringInput, setStringInput] = useState("");
@@ -12,120 +21,74 @@ function StringUtils() {
     resultStorageReducer,
     {}
   );
+  const [tabPannelIndex, setTabPannelIndex] = useState(0);
 
   const tr = useGetTr("string-utils");
 
-  const generateBase64Decode = (type) => {
-    const payload = {
-      resultName: "base64-decode",
-      getResult: () => {
-        return (
-          <Box key="base64-decode" sx={{ width: "100%" }}>
-            <TextField
-              value={Base64.decode(stringInput)}
-              label="BASE64 DECODE"
-              disabled
-              fullWidth
-              multiline
-            ></TextField>
-          </Box>
-        );
-      },
-    };
-
-    ResultStorageModifier.modifyByType(resultStorageDispatch, payload, type);
-  };
-
-  const generateQRCode = (type) => {
-    const payload = {
-      resultName: "qrcode",
-      getResult: () => {
-        return (
-          <Box
-            key="qrcode"
-            sx={{
-              borderWidth: 1,
-              backgroundColor: "white",
-              padding: 1,
-              paddingBottom: 0,
-            }}
-          >
-            <QRCodeSVG value={stringInput} size={128 * 1.25}></QRCodeSVG>
-          </Box>
-        );
-      },
-    };
-    ResultStorageModifier.modifyByType(resultStorageDispatch, payload, type);
-  };
-
-  const generateBase64Encode = (type) => {
-    const payload = {
-      resultName: "base64-encode",
-      getResult() {
-        return (
-          <Box key="base64-encode" sx={{ width: "100%" }}>
-            <TextField
-              value={Base64.encode(stringInput)}
-              label="BASE64 ENCODE"
-              disabled
-              fullWidth
-              multiline
-            ></TextField>
-          </Box>
-        );
-      },
-    };
-    ResultStorageModifier.modifyByType(resultStorageDispatch, payload, type);
-  };
-
-  const clearAll = () => {
+  const clearAllResult = () => {
     ResultStorageModifier.modifyByType(resultStorageDispatch, null, "clearAll");
-    setStringInput("");
   };
 
-  const onInputFieldChange = (event) => {
-    setStringInput(event.currentTarget.value);
-    generateBase64Decode("update");
-    generateBase64Encode("update");
-    generateQRCode("update");
+  const onInputFieldChange = (value) => {
+    setStringInput(value);
+    if (stringInput === "") {
+      clearAllResult();
+    }
   };
+
+  const onPanelChange = (value) => {
+    if (value !== tabPannelIndex) {
+      setTabPannelIndex(value);
+      clearAllResult();
+    }
+  };
+
   return (
     <Box component="form" noValidate autoComplete="off">
       <TextField
         rows={5}
         variant="standard"
         value={stringInput}
-        onChange={onInputFieldChange}
+        onChange={(event) => onInputFieldChange(event.currentTarget.value)}
         fullWidth
         multiline
       ></TextField>
-      <ButtonGroup
-        sx={{
-          mt: 2,
-        }}
-      >
-        <Button
-          onClick={() => generateQRCode("toggle")}
-          sx={{ textTransform: "none" }}
+
+      <Box>
+        <Tabs
+          value={tabPannelIndex}
+          onChange={(_, value) => onPanelChange(value)}
         >
-          {tr("qrcode-gen")}
-        </Button>
-        <Button
-          onClick={() => generateBase64Encode("toggle")}
-          sx={{ textTransform: "none" }}
-        >
-          {tr("base64-encode")}
-        </Button>
-        <Button
-          onClick={() => generateBase64Decode("toggle")}
-          sx={{ textTransform: "none" }}
-        >
-          {tr("base64-decode")}
-        </Button>
-        <Button onClick={clearAll} sx={{ textTransform: "none" }}>
-          {tr("clear")}
-        </Button>
-      </ButtonGroup>
+          <Tab label={tr("qrcode-tools")} sx={{ textTransform: "none" }}></Tab>
+          <Tab label={tr("base64-tools")} sx={{ textTransform: "none" }}></Tab>
+          <Tab
+            label={tr("caeser-code-tools")}
+            sx={{ textTransform: "none" }}
+          ></Tab>
+        </Tabs>
+
+        <TabPanel value={tabPannelIndex} index={0}>
+          <QrcodePart
+            resultStorageDispatch={resultStorageDispatch}
+            input={stringInput}
+          ></QrcodePart>
+        </TabPanel>
+
+        <TabPanel value={tabPannelIndex} index={1}>
+          <Base64Part
+            resultStorageDispatch={resultStorageDispatch}
+            input={stringInput}
+          ></Base64Part>
+        </TabPanel>
+
+        <TabPanel value={tabPannelIndex} index={2}>
+          <CaeserCodePart
+            resultStorageDispatch={resultStorageDispatch}
+            input={stringInput}
+          ></CaeserCodePart>
+        </TabPanel>
+      </Box>
+
       <Box sx={{ width: "100%" }}>
         <Stack
           direction="column"

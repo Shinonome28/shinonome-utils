@@ -57,7 +57,7 @@
   translations:
     - key: qrcode-gen
       en: QRCode
-      zh: 二维码
+      zh: 生成二维码
     - key: base64-encode
       en: Base64 Encode
       zh: Base64编码
@@ -67,6 +67,21 @@
     - key: clear
       en: Clear
       zh: 清除
+    - key: qrcode-tools
+      en: QR Code Tools
+      zh: 二维码工具
+    - key: base64-tools
+      en: Base64 Tools
+      zh: Base64编解码工具
+    - key: caeser-code-tools
+      en: Caeser Code Tools
+      zh: 凯撒密码工具
+    - key: generate-caeser-code
+      en: Generate Caeser Code
+      zh: 生成凯撒密码
+    - key: generate-caeser-decode
+      en: Decode Caeser Password
+      zh: 解密凯撒密码
 - prefix: uncertainty-calculator
   translations:
     - key: uncertainty-b

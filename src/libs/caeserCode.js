@@ -19,7 +19,7 @@ export function caeserEncode(str, shift) {
   return result;
 }
 
-export function caesarDecode(str, shift) {
+export function caeserDecode(str, shift) {
   let result = "";
   shift = shift % 26;
   const aCode = "a".charCodeAt(0);
