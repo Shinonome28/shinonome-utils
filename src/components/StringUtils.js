@@ -59,12 +59,9 @@ function StringUtils() {
           value={tabPannelIndex}
           onChange={(_, value) => onPanelChange(value)}
         >
-          <Tab label={tr("qrcode-tools")} sx={{ textTransform: "none" }}></Tab>
-          <Tab label={tr("base64-tools")} sx={{ textTransform: "none" }}></Tab>
-          <Tab
-            label={tr("caeser-code-tools")}
-            sx={{ textTransform: "none" }}
-          ></Tab>
+          <Tab label={tr("qrcode-tools")}></Tab>
+          <Tab label={tr("base64-tools")}></Tab>
+          <Tab label={tr("caeser-code-tools")}></Tab>
         </Tabs>
 
         <TabPanel value={tabPannelIndex} index={0}>

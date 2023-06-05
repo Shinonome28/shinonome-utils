@@ -152,7 +152,6 @@ function AppBarTypeA() {
                 sx={{
                   color: "#fff",
                   mr: 2,
-                  textTransform: "none",
                 }}
               >
                 Shinonome Site
@@ -177,7 +176,6 @@ function AppBarTypeA() {
                     onClick={(event) => handleNavMenuOpen(key, event)}
                     sx={{
                       color: "#fff",
-                      textTransform: "none",
                     }}
                   >
                     <Typography fontSize={16} fontWeight={500}>

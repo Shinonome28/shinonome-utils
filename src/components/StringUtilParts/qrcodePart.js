@@ -47,10 +47,7 @@ export function QrcodePart(props) {
           mt: 2,
         }}
       >
-        <Button
-          onClick={() => generateQRCode("toggle", dataForGeneration)}
-          sx={{ textTransform: "none" }}
-        >
+        <Button onClick={() => generateQRCode("toggle", dataForGeneration)}>
           {tr("qrcode-gen")}
         </Button>
       </ButtonGroup>

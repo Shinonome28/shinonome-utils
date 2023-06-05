@@ -68,13 +68,11 @@ export function Base64Part(props) {
       >
         <Button
           onClick={() => generateBase64Encode("toggle", dataForGeneration)}
-          sx={{ textTransform: "none" }}
         >
           {tr("base64-encode")}
         </Button>
         <Button
           onClick={() => generateBase64Decode("toggle", dataForGeneration)}
-          sx={{ textTransform: "none" }}
         >
           {tr("base64-decode")}
         </Button>

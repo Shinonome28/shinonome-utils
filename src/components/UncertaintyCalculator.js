@@ -120,23 +120,13 @@ export default function UncertaintyCalculator() {
             value={formState.dataInput}
             onChange={(e) => setDataInput(e.currentTarget.value)}
           ></TextField>
-          <Button
-            variant="outlined"
-            onClick={addNewData}
-            sx={{ textTransform: "none" }}
-          >
+          <Button variant="outlined" onClick={addNewData}>
             {tr("add")}
           </Button>
         </Box>
 
         <Box>
-          <Button
-            variant="outlined"
-            onClick={clear}
-            sx={{
-              textTransform: "none",
-            }}
-          >
+          <Button variant="outlined" onClick={clear}>
             {tr("clear")}
           </Button>
         </Box>

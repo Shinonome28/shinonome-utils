@@ -4,6 +4,7 @@ import ControlledAlert from "../components/ControlledAlert";
 import ToggleColorMode from "../components/ToggleColorMode";
 import GlobalAlertMessageContextProvider from "../context/globalAlertMessageContext";
 import CurrentLanguageContextProvider from "../context/userLanguageSettingContext";
+import UseTheme from "../theme";
 
 function UILayoutTypeA(props) {
   return (
@@ -12,18 +13,20 @@ function UILayoutTypeA(props) {
 
       <GlobalAlertMessageContextProvider>
         <CurrentLanguageContextProvider>
-          <Box>
-            <AppBarTypeA></AppBarTypeA>
-            <ControlledAlert></ControlledAlert>
-            <Container
-              maxWidth="md"
-              sx={{
-                mt: 2,
-              }}
-            >
-              {props.children}
-            </Container>
-          </Box>
+          <UseTheme>
+            <Box>
+              <AppBarTypeA></AppBarTypeA>
+              <ControlledAlert></ControlledAlert>
+              <Container
+                maxWidth="md"
+                sx={{
+                  mt: 2,
+                }}
+              >
+                {props.children}
+              </Container>
+            </Box>
+          </UseTheme>
         </CurrentLanguageContextProvider>
       </GlobalAlertMessageContextProvider>
     </ToggleColorMode>

@@ -74,7 +74,7 @@ export function CaeserCodePart(props) {
   };
 
   return (
-    <Box component="form" noValidate autoComplete="off">
+    <Box>
       <Stack
         direction="row"
         alignContent="flex-start"
