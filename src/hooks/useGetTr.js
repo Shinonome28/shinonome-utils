@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from "react";
 import { CurrentLanguageContext } from "../context/userLanguageSettingContext";
 import SiteConfiguration from "../siteConfiguration";
-import axios from "axios";
 import { load as parseYAML } from "js-yaml";
+import cacheManager from "../libs/easyCache";
 
 function getQuery(translationDB, prefixs, currentLanguage, fallbackLanguage) {
   if (!Array.isArray(prefixs)) {
@@ -35,12 +35,13 @@ export default function useGetTr(prefix) {
 
   useEffect(() => {
     const fn = async () => {
-      const response = await axios.get(
+      const data = await cacheManager.makeRequest(
         process.env.PUBLIC_URL + "/assets/i18n/" + fileName
       );
-      const obj = parseYAML(response.data);
+      const obj = parseYAML(data);
       setTranslationDB(obj);
     };
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
     fn();
   }, []);
 
